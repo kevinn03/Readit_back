@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import redditServices from '../services/redditServices';
 const router = express.Router();
@@ -7,13 +7,18 @@ router.get('/', (_req, res) => {
   res.send('ping');
 });
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-router.get('/:subreddit', async (req, res) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const sub: string = req.params.subreddit;
-  const data = await redditServices.getPosts(sub);
-  console.log(data);
-  res.json(data);
+router.get('/:subreddit', async (req, res, next) => {
+  try {
+    const sub: string = req.params.subreddit;
+    const data = await redditServices.getPosts(sub);
+
+    return res.json(data);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.error(e.message);
+    }
+    return next(e);
+  }
 });
 
 export default router;
