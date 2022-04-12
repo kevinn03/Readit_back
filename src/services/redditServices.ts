@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { RawPost, Data, Post } from '../types';
+
+// get subreddit data
 const getData = async (subreddit: string): Promise<RawPost[] | null> => {
   try {
     const result = await axios.get<Data>(
@@ -15,6 +17,7 @@ const getData = async (subreddit: string): Promise<RawPost[] | null> => {
   }
 };
 
+// create posts from subreddit data
 const getPosts = async (
   subreddit: string,
   index = 0
