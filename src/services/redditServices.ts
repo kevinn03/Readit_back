@@ -26,7 +26,7 @@ const getPosts = async (
     const resultArray = [];
     const result: RawPost[] | null = await getData(subreddit);
 
-    for (let i = index; i < 5; i++) {
+    for (let i = index; i < index + 2; i++) {
       if (result) {
         const post = result[i].data;
         const newObject: Post = {
