@@ -1,4 +1,4 @@
-# Readit Backend
+# ReadIt News Backend
 
 Explore [ReadIt News](https://readit-news.herokuapp.com/)
 
