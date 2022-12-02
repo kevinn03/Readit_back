@@ -1,6 +1,6 @@
 # ReadIt News Backend
 
-Explore [ReadIt News](https://readit-news.herokuapp.com/)
+Explore [ReadIt News](https://readit-news.onrender.com/)
 
 ReadIt News is a news website that aggregates news content from Reddit
 
