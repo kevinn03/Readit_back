@@ -11,7 +11,6 @@ router.get('/:subreddit', async (req, res, next) => {
   try {
     const sub: string = req.params.subreddit;
     const { index, end } = req.query;
-
     if (index && end) {
       const indexNum = Number(index);
       const endNum = Number(end);
@@ -24,7 +23,6 @@ router.get('/:subreddit', async (req, res, next) => {
       const data = await redditServices.getPosts(sub, indexNum);
       return res.json(data);
     }
-
     const data = await redditServices.getPosts(sub);
     return res.json(data);
   } catch (e: unknown) {

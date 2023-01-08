@@ -28,11 +28,18 @@ const getData = (subreddit) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 // create posts from subreddit data
-const getPosts = (subreddit, index = 0) => __awaiter(void 0, void 0, void 0, function* () {
+const getPosts = (subreddit, index = 0, end = index + 2) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const resultArray = [];
         const result = yield getData(subreddit);
-        for (let i = index; i < index + 2; i++) {
+        if (index < 0) {
+            index = 0;
+        }
+        if (end <= index) {
+            end = index + 2;
+        }
+        //gets post from index number to end non inclusive
+        for (let i = index; i < end; i++) {
             if (result) {
                 const post = result[i].data;
                 const newObject = {

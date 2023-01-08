@@ -22,12 +22,19 @@ router.get('/', (_req, res) => {
 router.get('/:subreddit', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sub = req.params.subreddit;
-        const index = Number(req.query.index);
-        if (isNaN(index)) {
-            const data = yield redditServices_1.default.getPosts(sub);
+        const { index, end } = req.query;
+        if (index && end) {
+            const indexNum = Number(index);
+            const endNum = Number(end);
+            const data = yield redditServices_1.default.getPosts(sub, indexNum, endNum);
             return res.json(data);
         }
-        const data = yield redditServices_1.default.getPosts(sub, index);
+        if (index) {
+            const indexNum = Number(index);
+            const data = yield redditServices_1.default.getPosts(sub, indexNum);
+            return res.json(data);
+        }
+        const data = yield redditServices_1.default.getPosts(sub);
         return res.json(data);
     }
     catch (e) {
