@@ -10,12 +10,22 @@ router.get('/', (_req, res) => {
 router.get('/:subreddit', async (req, res, next) => {
   try {
     const sub: string = req.params.subreddit;
-    const index = Number(req.query.index);
-    if (isNaN(index)) {
-      const data = await redditServices.getPosts(sub);
+    const { index, end } = req.query;
+
+    if (index && end) {
+      const indexNum = Number(index);
+      const endNum = Number(end);
+      const data = await redditServices.getPosts(sub, indexNum, endNum);
       return res.json(data);
     }
-    const data = await redditServices.getPosts(sub, index);
+
+    if (index) {
+      const indexNum = Number(index);
+      const data = await redditServices.getPosts(sub, indexNum);
+      return res.json(data);
+    }
+
+    const data = await redditServices.getPosts(sub);
     return res.json(data);
   } catch (e: unknown) {
     if (e instanceof Error) {

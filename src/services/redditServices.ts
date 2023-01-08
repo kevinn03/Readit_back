@@ -20,13 +20,21 @@ const getData = async (subreddit: string): Promise<RawPost[] | null> => {
 // create posts from subreddit data
 const getPosts = async (
   subreddit: string,
-  index = 0
+  index = 0,
+  end = index + 2
 ): Promise<Post[] | null> => {
   try {
     const resultArray = [];
     const result: RawPost[] | null = await getData(subreddit);
 
-    for (let i = index; i < index + 2; i++) {
+    if (index < 0) {
+      index = 0;
+    }
+    if (end <= index) {
+      end = index + 2;
+    }
+    //gets post from index number to end non inclusive
+    for (let i = index; i < end; i++) {
       if (result) {
         const post = result[i].data;
         const newObject: Post = {
