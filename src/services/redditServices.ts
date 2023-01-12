@@ -48,10 +48,10 @@ const getPosts = async (
         };
 
         if (post.preview) {
-          newObject.image = post.preview.images[0].source.url.replaceAll(
-            'amp;',
-            ''
-          );
+          const refactoredImageUrl = post.preview.images[0].source.url
+            .split('amp;')
+            .join('');
+          newObject.image = refactoredImageUrl;
         }
 
         resultArray.push(newObject);

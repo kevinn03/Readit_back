@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,22 +19,22 @@ const router = express_1.default.Router();
 router.get('/', (_req, res) => {
     res.send('ping');
 });
-router.get('/:subreddit', async (req, res, next) => {
+router.get('/:subreddit', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const sub = req.params.subreddit;
         const { index, end } = req.query;
         if (index && end) {
             const indexNum = Number(index);
             const endNum = Number(end);
-            const data = await redditServices_1.default.getPosts(sub, indexNum, endNum);
+            const data = yield redditServices_1.default.getPosts(sub, indexNum, endNum);
             return res.json(data);
         }
         if (index) {
             const indexNum = Number(index);
-            const data = await redditServices_1.default.getPosts(sub, indexNum);
+            const data = yield redditServices_1.default.getPosts(sub, indexNum);
             return res.json(data);
         }
-        const data = await redditServices_1.default.getPosts(sub);
+        const data = yield redditServices_1.default.getPosts(sub);
         return res.json(data);
     }
     catch (e) {
@@ -34,5 +43,5 @@ router.get('/:subreddit', async (req, res, next) => {
         }
         return next(e);
     }
-});
+}));
 exports.default = router;

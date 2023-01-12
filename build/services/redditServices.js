@@ -1,13 +1,22 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 // get subreddit data
-const getData = async (subreddit) => {
+const getData = (subreddit) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = await axios_1.default.get(`https://www.reddit.com/r/${subreddit}/hot.json`);
+        const result = yield axios_1.default.get(`https://www.reddit.com/r/${subreddit}/hot.json`);
         const data = result.data;
         return data.data.children;
     }
@@ -17,12 +26,12 @@ const getData = async (subreddit) => {
         }
         return null;
     }
-};
+});
 // create posts from subreddit data
-const getPosts = async (subreddit, index = 0, end = index + 2) => {
+const getPosts = (subreddit, index = 0, end = index + 2) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const resultArray = [];
-        const result = await getData(subreddit);
+        const result = yield getData(subreddit);
         if (index < 0) {
             index = 0;
         }
@@ -43,7 +52,10 @@ const getPosts = async (subreddit, index = 0, end = index + 2) => {
                     comments: post.num_comments,
                 };
                 if (post.preview) {
-                    newObject.image = post.preview.images[0].source.url.replaceAll('amp;', '');
+                    const refactoredImageUrl = post.preview.images[0].source.url
+                        .split('amp;')
+                        .join('');
+                    newObject.image = refactoredImageUrl;
                 }
                 resultArray.push(newObject);
             }
@@ -56,5 +68,5 @@ const getPosts = async (subreddit, index = 0, end = index + 2) => {
         }
         return null;
     }
-};
+});
 exports.default = { getData, getPosts };
