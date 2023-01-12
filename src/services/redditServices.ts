@@ -54,7 +54,6 @@ const getPosts = async (
           );
         }
 
-        console.log(newObject.image);
         resultArray.push(newObject);
       }
     }
