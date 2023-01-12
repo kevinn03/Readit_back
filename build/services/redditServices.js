@@ -45,6 +45,7 @@ const getPosts = async (subreddit, index = 0, end = index + 2) => {
                 if (post.preview) {
                     newObject.image = post.preview.images[0].source.url.replaceAll('amp;', '');
                 }
+                console.log(newObject.image);
                 resultArray.push(newObject);
             }
         }
