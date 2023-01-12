@@ -48,7 +48,7 @@ const getPosts = async (
         };
 
         if (post.preview) {
-          newObject.image = post.preview.images[0].source.url.replace(
+          newObject.image = post.preview.images[0].source.url.replaceAll(
             'amp;',
             ''
           );
